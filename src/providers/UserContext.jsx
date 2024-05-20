@@ -35,8 +35,13 @@ export const UserProvider = ({ children }) => {
         }
     }
 
+    const logout = () => {
+        setUser(null)
+        navigate("/")
+    }
+
     return (
-        <UserContext.Provider value={{ user, setUser, registerUser, loginUser }}>
+        <UserContext.Provider value={{ user, setUser, registerUser, loginUser, logout }}>
             {children}
         </UserContext.Provider>
     )

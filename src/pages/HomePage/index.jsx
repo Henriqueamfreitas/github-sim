@@ -6,13 +6,7 @@ import { UserContext } from "../../providers/UserContext.jsx"
 import { useContext } from "react"
 
 export const HomePage = ({ }) => {
-    const { user, setUser } = useContext(UserContext);
-    const navigate = useNavigate()
-
-    const logout = () => {
-        setUser(null)
-        navigate("/")
-    }
+    const { user, setUser, logout } = useContext(UserContext);
 
     return (
         <StyledHomePage>
