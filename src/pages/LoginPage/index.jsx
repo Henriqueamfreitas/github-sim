@@ -6,7 +6,7 @@ export const LoginPage = ({ user, setUser }) => {
     return(
         <StyledLoginPage>
             <StyledH1 fontSize="18" fontWeight="900" color="primary" >HubSim</StyledH1>
-            <LoginForm user={user} setUser={setUser} />
+            <LoginForm />
         </StyledLoginPage>
     )
 }

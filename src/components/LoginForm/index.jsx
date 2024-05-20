@@ -11,8 +11,11 @@ import "react-toastify/dist/ReactToastify.css"
 import { StyledP, StyledH2 } from "../../styles/typography.js"
 import { StyledButton } from "../../styles/button.js"
 import { StyledLink } from "../../styles/link.js"
+import { UserContext } from "../../providers/UserContext.jsx"
+import { useContext } from "react"
 
-export const LoginForm = ({ user, setUser }) => {
+export const LoginForm = ({ }) => {
+    const { setUser } = useContext(UserContext);
     const navigate = useNavigate()
 
     const { register, handleSubmit, formState: { errors } } = useForm({

@@ -1,10 +1,12 @@
 import { StyledHomePage } from "./style"
 import { useNavigate } from "react-router-dom"
-import { Link } from "react-router-dom";
 import { StyledH2, StyledSpan, StyledH1 } from "../../styles/typography.js"
 import { StyledButton } from "../../styles/button.js"
+import { UserContext } from "../../providers/UserContext.jsx"
+import { useContext } from "react"
 
-export const HomePage = ({ user, setUser }) => {
+export const HomePage = ({ }) => {
+    const { user, setUser } = useContext(UserContext);
     const navigate = useNavigate()
 
     const logout = () => {
