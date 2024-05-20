@@ -22,9 +22,21 @@ export const UserProvider = ({ children }) => {
         }
     }
 
+    const loginUser = async (formData) => {
+        try{
+            const response = await api.post("/sessions", formData) 
+            setUser(response.data.user)
+            toast.success("Congratulations! You're being redirected to the login page.")
+            setTimeout(() => {
+                navigate("/home")
+            }, 5000)
+        } catch (error) {
+            toast.error(error.response.data.message)
+        }
+    }
 
     return (
-        <UserContext.Provider value={{ user, setUser, registerUser }}>
+        <UserContext.Provider value={{ user, setUser, registerUser, loginUser }}>
             {children}
         </UserContext.Provider>
     )

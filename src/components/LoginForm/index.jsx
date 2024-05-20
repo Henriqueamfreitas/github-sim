@@ -1,11 +1,9 @@
 import { StyledLoginForm } from "./style"
-import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { loginFormSchema } from "./loginFormSchema"
 import { Input } from "../Input"
-import { api } from "../../services/api.js"
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import { StyledP, StyledH2 } from "../../styles/typography.js"
 import { StyledButton } from "../../styles/button.js"
@@ -14,24 +12,14 @@ import { UserContext } from "../../providers/UserContext.jsx"
 import { useContext } from "react"
 
 export const LoginForm = ({ }) => {
-    const { setUser } = useContext(UserContext);
-    const navigate = useNavigate()
+    const { loginUser } = useContext(UserContext)
 
     const { register, handleSubmit, formState: { errors } } = useForm({
         resolver: zodResolver(loginFormSchema),
     })
 
     const submit = async (formData) => {
-        try{
-            const response = await api.post("/sessions", formData) 
-            setUser(response.data.user)
-            toast.success("Congratulations! You're being redirected to the login page.")
-            setTimeout(() => {
-                navigate("/home")
-            }, 5000)
-        } catch (error) {
-            toast.error(error.response.data.message)
-        }
+        loginUser(formData)
     }
 
     return(
