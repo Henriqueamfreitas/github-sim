@@ -1,34 +1,26 @@
 import { registerFormSchema } from "./registerFormSchema"
 import { StyledRegisterForm } from "./style"
-import { useNavigate } from "react-router-dom"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Input } from "../Input"
-import { api } from "../../services/api"
-import { toast, ToastContainer } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import "react-toastify/dist/ReactToastify.css"
 import { StyledSpan, StyledH2, StyledP } from "../../styles/typography.js"
 import { StyledButton } from "../../styles/button.js"
-
+import { UserContext } from "../../providers/UserContext.jsx"
+import { useContext } from "react"
+import { useNavigate } from "react-router-dom"
 
 export const RegisterForm = () => {
-    const navigate = useNavigate();
+    const { registerUser } = useContext(UserContext);
+    const navigate = useNavigate()
 
     const { register, handleSubmit, formState: { errors, dirtyFields,  } } = useForm({
         resolver: zodResolver(registerFormSchema),
     })
 
     const submit = async (formData) => {
-        delete formData.confirmPassword
-        try{
-            const response = await api.post("/users", formData)
-            toast.success("Congratulations! You're now registered.")
-            setTimeout(() => {
-                navigate("/")
-            }, 5000)
-        } catch (error) {
-            toast.error(error.response.data.message)
-        }
+        registerUser(formData)
     }
 
     return(
