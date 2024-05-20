@@ -1,12 +1,11 @@
 import { StyledHomePage } from "./style"
-import { useNavigate } from "react-router-dom"
 import { StyledH2, StyledSpan, StyledH1 } from "../../styles/typography.js"
 import { StyledButton } from "../../styles/button.js"
 import { UserContext } from "../../providers/UserContext.jsx"
 import { useContext } from "react"
 
 export const HomePage = ({ }) => {
-    const { user, setUser, logout } = useContext(UserContext);
+    const { user, logout } = useContext(UserContext);
 
     return (
         <StyledHomePage>
@@ -16,8 +15,8 @@ export const HomePage = ({ }) => {
             </header>
 
             <div>
-                <StyledH2 fontSize="18" fontWeight="700" color="grey0">Hello, {user.name}</StyledH2>
-                <StyledSpan fontSize="12" fontWeight="600" color="grey1">{user.course_module}</StyledSpan>
+                <StyledH2 fontSize="18" fontWeight="700" color="grey0">Hello, {user?.name}</StyledH2>
+                <StyledSpan fontSize="12" fontWeight="600" color="grey1">{user?.course_module}</StyledSpan>
             </div>
 
             <div>

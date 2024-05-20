@@ -1,4 +1,4 @@
-import { createContext, useState } from "react"
+import { createContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { api } from "../services/api"
 import { toast } from 'react-toastify'
@@ -7,7 +7,30 @@ export const UserContext = createContext({})
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null)
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    
+    const token = localStorage.getItem("@token")
+    useEffect(() => {
+        const loadData = async () => {
+            if(token){
+                try {
+                    const response = await api.get("/profile", {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        }
+                    }) 
+                    setUser(response.data)
+                    navigate("/home")
+                } catch (error) {
+                    console.log(error)
+                    localStorage.removeItem("@token")
+                }
+            }
+        }
+
+        loadData()
+    }, [])
+
 
     const registerUser = async (formData) => {
         delete formData.confirmPassword
@@ -26,6 +49,7 @@ export const UserProvider = ({ children }) => {
         try{
             const response = await api.post("/sessions", formData) 
             setUser(response.data.user)
+            localStorage.setItem("@token", response.data.token)
             toast.success("Congratulations! You're being redirected to the login page.")
             setTimeout(() => {
                 navigate("/home")
@@ -37,8 +61,10 @@ export const UserProvider = ({ children }) => {
 
     const logout = () => {
         setUser(null)
+        localStorage.removeItem("@token")
         navigate("/")
     }
+
 
     return (
         <UserContext.Provider value={{ user, setUser, registerUser, loginUser, logout }}>
