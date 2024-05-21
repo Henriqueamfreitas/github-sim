@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useState, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
 import { api } from "../services/api"
 import { toast } from 'react-toastify'
@@ -7,8 +7,15 @@ export const UserContext = createContext({})
 
 export const UserProvider = ({ children }) => {
     const [user, setUser] = useState(null)
+    const [currentTheme, setCurrentTheme] = useState("dark");
+
     const navigate = useNavigate()
     
+    const getOpositeTheme = useCallback(
+        () => (currentTheme === "light" ? "dark" : "light"),
+        [currentTheme]
+    )
+
     const token = localStorage.getItem("@token")
     useEffect(() => {
         const loadData = async () => {
@@ -67,7 +74,7 @@ export const UserProvider = ({ children }) => {
 
 
     return (
-        <UserContext.Provider value={{ user, setUser, registerUser, loginUser, logout }}>
+        <UserContext.Provider value={{ user, setUser, registerUser, loginUser, logout, currentTheme, setCurrentTheme, getOpositeTheme }}>
             {children}
         </UserContext.Provider>
     )
